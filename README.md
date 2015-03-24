@@ -22,3 +22,14 @@ libclc/utils/prepare-builtins builtins-hsail.bc -o builtins-hsail.opt.bc
 5. Assemble this LL file back to BC file using llvm-as
 
 6. Note that any bc file which has function calls should also be run through prepare-builtins utility (like for example with C++AMP opencl_math.bc)
+
+7. Changes done for library sources in P4 are:
+   i. Change the get_global_id source not to call get_global_offset
+   ii. Remove the following sources which have aliases:
+	a. subgroup/subbbacst.cl
+	b. misc/awgcpy.cl, bitsel.cl
+	c. vldst/vldst_gen.cl, vldst_half.cl
+	d. int/ctz_base.cl, rotate_base.cl, popcnt_base.cl
+	e. common/commonConversions.cl, common/commonShuffle.cl, common/commonSelect.cl 
+	f. Modified int/clz_base.cl (replace alias)
+	("f" means that if we replace all aliases with their respective bodies)
