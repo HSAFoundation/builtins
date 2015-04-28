@@ -44605,7 +44605,7 @@ define linkonce_odr spir_func double @_Z29work_group_scan_exclusive_mind(double)
   ret double %38
 }
 
-attributes #0 = { alwaysinline nounwind readnone }
+attributes #0 = { nounwind readnone }
 attributes #1 = { nounwind readnone }
 attributes #2 = { inlinehint nounwind readnone }
 attributes #3 = { nounwind readonly }
