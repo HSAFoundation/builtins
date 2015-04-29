@@ -44708,13 +44708,13 @@ define internal spir_func i64 @108(i64) #7 {
   ret i64 %12
 }
 
-attributes #0 = { nounwind readnone }
+attributes #0 = { alwaysinline nounwind readnone }
 attributes #1 = { inlinehint nounwind readnone }
 attributes #2 = { nounwind readonly }
 attributes #3 = { alwaysinline nounwind }
 attributes #4 = { inlinehint nounwind }
 attributes #5 = { inlinehint nounwind readonly }
-attributes #6 = { nounwind }
+attributes #6 = { alwaysinline nounwind }
 attributes #7 = { alwaysinline nounwind readnone "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "no-realign-stack" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
 attributes #8 = { nounwind readnone "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "no-realign-stack" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
 attributes #9 = { nounwind readonly "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "no-realign-stack" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
