@@ -148,7 +148,7 @@
 #define w6 -1.63092934096575273989e-03	/* 0xBF5AB89D, 0x0B9E43E4 */
 
 __attribute__ ((overloadable, always_inline)) double
-lgamma_r(double x, int *ip)
+lgamma_r(double x, private int *ip)
 {
     ulong ux = as_ulong(x);
     ulong ax = ux & EXSIGNBIT_DP64;

@@ -86,7 +86,7 @@
 #define w6  -1.6309292987e-03f        /* 0xbad5c4e8 */
 
 __attribute__ ((overloadable, always_inline)) float
-lgamma_r(float x, int *signp)
+lgamma_r(float x, private int *signp)
 {
     int hx = as_int(x);
     int ix = hx & 0x7fffffff;
