@@ -1,0 +1,65 @@
+#!/bin/bash
+
+builtin=$1
+
+
+LLVM_TOOLS_PATH=/opt/amd/bin
+
+PREPARE_BUILTINS=../libclc/utils/prepare-builtins
+
+$PREPARE_BUILTINS $builtin -o $builtin.pre.bc
+
+/opt/amd/bin/llvm-dis -o=$builtin.pre.ll $builtin.pre.bc
+
+sed 's/weak spir_func/linkonce_odr spir_func/g' <$builtin.pre.ll >$builtin.tmp.ll
+mv $builtin.tmp.ll $builtin.fixed.ll
+
+sed 's/, \!fpmath \![0-9]\+//g' <$builtin.fixed.ll >$builtin.tmp.ll
+mv $builtin.tmp.ll $builtin.fixed.ll
+
+sed 's/linkonce_odr addrspace/internal addrspace/g' <$builtin.fixed.ll >$builtin.tmp.ll
+mv $builtin.tmp.ll $builtin.fixed.ll
+
+grep -v "!llvm.ident"  $builtin.fixed.ll >$builtin.tmp.ll
+mv $builtin.tmp.ll $builtin.fixed.ll
+
+
+NEW=1
+
+if [ "$NEW" == "1" ]; then
+
+# link the bitcode with the signbit bitcode
+# replace linkonce_odr with weak_odr temporary so that unreferenced functions don't get discarded by llvm-link
+sed 's/linkonce_odr/weak_odr/g' <$builtin.fixed.ll >$builtin.tmp.ll
+mv $builtin.tmp.ll $builtin.fixed.ll
+
+
+$LLVM_TOOLS_PATH/llvm-dis -o=builtins-hsail.sign.tmp.ll  builtins-hsail.sign.bc
+sed 's/linkonce_odr/weak_odr/g' <builtins-hsail.sign.tmp.ll  >builtins-hsail.sign.fixed.ll
+
+
+$LLVM_TOOLS_PATH/llvm-link -o=$builtin.tmp.bc $builtin.fixed.ll builtins-hsail.sign.fixed.ll
+
+
+# replace weak_odr with linkonce_odr
+$LLVM_TOOLS_PATH/llvm-dis -o=$builtin.tmp.ll  $builtin.tmp.bc
+mv $builtin.tmp.ll $builtin.fixed.ll
+
+
+
+sed 's/weak_odr/linkonce_odr/g' <$builtin.fixed.ll >$builtin.tmp.ll
+mv $builtin.tmp.ll $builtin.fixed.ll
+
+
+$LLVM_TOOLS_PATH/llvm-as -o=$builtin.opt.bc $builtin.fixed.ll
+
+
+
+else
+
+  $LLVM_TOOLS_PATH/llvm-as -o=$builtin.opt.bc $builtin.fixed.ll
+
+
+fi
+
+
