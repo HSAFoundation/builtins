@@ -4,4 +4,5 @@ How to build the builtins
 2- PATH=$PATH:<path to builtins directory>/praghave_HSAtest2_5501/bin make lnx64a
 3- in praghave_bglpike04_9131/drivers/opencl/dist/linux/debug/lib/x86_64 , copy the builtins-hsail.bc file to the process_builtin directory
 4- run "fix_builtins.bsh builtins-hsail.bc"
-5- rename builtins-hsail.bc.opt.bc to builtins-hsail.opt.bc
+5- manually add the noduplicate attribute to the builtins: barrier, hsail_barrier, group_barrier
+6- rename builtins-hsail.bc.opt.bc to builtins-hsail.opt.bc
